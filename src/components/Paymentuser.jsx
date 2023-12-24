@@ -9,7 +9,12 @@ function Paymentuser() {
     const [expirationDate, setExpirationDate] = useState('');
     const [secretCode, setSecretCode] = useState('');
     const [cardDetails, setCardDetails] = useState([]);
-    const [newCard, setNewCard] = useState('');
+    const [newCard, setNewCard] = useState({
+        cardNumber: '',
+        cardHolderName: '',
+        expirationDate: '',
+        secretCode: ''
+    });
 
     const handlePaymentMethodChange = (event) => {
         setPaymentMethod(event.target.value);
@@ -40,7 +45,10 @@ function Paymentuser() {
     };
 
     const handleCardDetailsChange = (event) => {
-        setNewCard(event.target.value);
+        setNewCard({
+            ...newCard,
+            [event.target.id]: event.target.value
+        });
     };
 
     const handleAddCard = () => {
@@ -73,7 +81,7 @@ function Paymentuser() {
                 <label htmlFor="paymentMethod">Payment Method:</label>
                 <select id="paymentMethod" value={paymentMethod} onChange={handlePaymentMethodChange}>
                     <option value="">Select Payment Method</option>
-                    <option value="creditCard">Credit Card</option>
+                    <option value="creditCard">Card Payments</option>
                     <option value="paypal">PayPal</option>
                     <option value="directBank">Direct Bank Transaction</option>
                 </select>
@@ -128,23 +136,6 @@ function Paymentuser() {
             )}
 
             <div id="cardDetailsDiv">
-                <label htmlFor="cardDetails">Card Details:</label>
-                <div>
-                    <label htmlFor="cardNumber">Card Number:</label>
-                    <input id="cardNumber" type="text" value={newCard.cardNumber} onChange={handleCardDetailsChange} />
-                </div>
-                <div>
-                    <label htmlFor="cardHolderName">Card Holder Name:</label>
-                    <input id="cardHolderName" type="text" value={newCard.cardHolderName} onChange={handleCardDetailsChange} />
-                </div>
-                <div>
-                    <label htmlFor="expirationDate">Expiration Date:</label>
-                    <input id="expirationDate" type="text" value={newCard.expirationDate} onChange={handleCardDetailsChange} />
-                </div>
-                <div>
-                    <label htmlFor="secretCode">Secret Code:</label>
-                    <input id="secretCode" type="text" value={newCard.secretCode} onChange={handleCardDetailsChange} />
-                </div>
                 <button onClick={handleAddCard}>Add Card</button>
             </div>
 
@@ -161,7 +152,6 @@ function Paymentuser() {
                     </div>
                 ))}
 
-                {/* Display entered card details */}
                 {newCard.cardNumber && (
                     <div>
                         <p>Card Type: {newCard.cardType}</p>
